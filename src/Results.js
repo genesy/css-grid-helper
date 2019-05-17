@@ -17,6 +17,13 @@ function Results({
     }
   }
 
+  function Boxes({ settings }) {
+    console.log(settings)
+    return settings.boxes.map((box,i) => (
+      <Box key={box.id} id={box.id} deleteBox={deleteBox}/>
+    ));
+  }
+
   return (
     <AppContext.Consumer>
       {({
@@ -31,12 +38,18 @@ function Results({
             className="result"
             style={style(settings)}
           >
+            <Boxes settings={settings} />
+            <div className="box add-box" onClick={() => addBox(1)}>Add Box</div>
+          </div>
+          <div
+            className="background-result"
+            style={style(settings)}
+          >
             {
-              settings.boxes.map((box,i) => (
-                <Box key={box.id} deleteBox={deleteBox}/>
+              [...Array(settings.cols * settings.rows)].map((v,i) => (
+                <Box key={'bg_box_' + i} />
               ))
             }
-            <div className="box add-box" onClick={() => addBox(1)}>Add Box</div>
           </div>
           <button className="col-add" onClick={() => editGrid(1, 'cols') }>+</button>
           <button className="row-add" onClick={() => editGrid(1, 'rows') }>+</button>

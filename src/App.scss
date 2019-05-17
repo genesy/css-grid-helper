@@ -25,16 +25,14 @@ html, body {
   grid-row: 2
 }
 
-.result {
+.result, .background-result {
   display: grid;
   grid-template-rows: var(--rows);
   grid-template-columns: var(--cols);
   grid-gap: var(--gap);
   padding: 20px;
   .box {
-    // width: 100px;
-    // height: 100px;
-    background: #000;
+    background: rgba(blue, 0.5);
     display: grid;
     align-content: center;
     justify-content: center;
@@ -80,16 +78,27 @@ html, body {
     grid-column: 3/4;
     grid-row: 2/3;
   }
-  .result {
+  .result, .background-result {
     grid-column: 2/3;
     grid-row: 2/3;
-    // grid-column: 1/2;
-    // grid-row: 1/2;
   }
+  .background-result {
+    background: red;
+  }
+
+  .result {
+    z-index: 2;
+  }
+  .background-result {
+    z-index: 1;
+    .box {
+      outline: 1px dashed #ccc;
+    }
+  }
+
   .box {
     position: relative;
     transition: .2s linear all;
-    outline: 1px dashed #ccc;
     .delete-box {
       position: absolute;
       top: 0;

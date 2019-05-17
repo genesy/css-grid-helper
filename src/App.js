@@ -12,7 +12,7 @@ function App() {
     rows: 1,
     cols: 1,
     boxes: [],
-    gap: '20px',
+    gap: '15px',
     editorOptions: {
       minimap: {
         readOnly: true,

@@ -20,3 +20,106 @@ html, body {
     grid-row: 1;
   }
 }
+
+.settings {
+  grid-row: 2
+}
+
+.result {
+  display: grid;
+  grid-template-rows: var(--rows);
+  grid-template-columns: var(--cols);
+  grid-gap: var(--gap);
+  padding: 20px;
+  .box {
+    // width: 100px;
+    // height: 100px;
+    background: #000;
+    display: grid;
+    align-content: center;
+    justify-content: center;
+    color: white;
+    font-size: 48px;
+  }
+}
+
+.result-container {
+  background: #111;
+  grid-row: 1/3;
+  display: grid;
+  grid-template-rows: 50px 1fr 50px;
+  grid-template-columns: 50px 1fr 50px;
+  .col-add,
+  .row-add,
+  .col-sub,
+  .row-sub {
+    background: #666;
+    color: white;
+    font-size: 36px;
+    align-content: center;
+    display: grid;
+    justify-content: center;
+    transition: .2s linear all;
+    border: 0;
+    &:hover {
+      background: #888;
+    }
+  }
+
+  .row-sub {
+    grid-column: 2/3;
+  }
+  .col-sub {
+    grid-row: 2/3;
+  }
+  .row-add {
+    grid-column: 2/3;
+    grid-row: 3/4;
+  }
+  .col-add {
+    grid-column: 3/4;
+    grid-row: 2/3;
+  }
+  .result {
+    grid-column: 2/3;
+    grid-row: 2/3;
+    // grid-column: 1/2;
+    // grid-row: 1/2;
+  }
+  .box {
+    position: relative;
+    transition: .2s linear all;
+    outline: 1px dashed #ccc;
+    .delete-box {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 30px;
+      height: 30px;
+      font-size: 20px;
+      background: red;
+      display: flex;
+      align-content: center;
+      justify-content: center;
+      border-radius: 50%;
+      margin: 10px;
+      cursor: pointer;
+      opacity: 0;
+      transition: .2s linear all;
+      &:hover {
+        background: lighten(red, 20%);
+      }
+    }
+    &:hover {
+      .delete-box {
+        opacity: 1;
+      }
+    }
+    &.add-box {
+      cursor: pointer;
+      &:hover {
+        background-color: #222;
+      }
+    }
+  }
+}

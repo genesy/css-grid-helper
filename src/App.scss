@@ -32,12 +32,20 @@ html, body {
   grid-gap: var(--gap);
   padding: 20px;
   .box {
-    background: rgba(blue, 0.5);
     display: grid;
     align-content: center;
     justify-content: center;
     color: white;
     font-size: 48px;
+  }
+}
+
+.result {
+  .box {
+    outline: 1px solid rgba(red, 0.2);
+  }
+  .add-box {
+    outline: 0;
   }
 }
 
@@ -83,7 +91,7 @@ html, body {
     grid-row: 2/3;
   }
   .background-result {
-    background: red;
+    // background: red;
   }
 
   .result {

@@ -39,9 +39,9 @@ function Results({
             style={style(settings)}
           >
             <Boxes settings={settings} />
-            <div className="box add-box" onClick={() => addBox(1)}>Add Box</div>
+            {/* <div className="box add-box" onClick={() => addBox(1)}>Add Box</div> */}
           </div>
-          <div
+          {/* <div
             className="background-result"
             style={style(settings)}
           >
@@ -50,7 +50,7 @@ function Results({
                 <Box key={'bg_box_' + i} />
               ))
             }
-          </div>
+          </div> */}
           <button className="col-add" onClick={() => editGrid(1, 'cols') }>+</button>
           <button className="row-add" onClick={() => editGrid(1, 'rows') }>+</button>
         </div>

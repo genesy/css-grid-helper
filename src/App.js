@@ -26,18 +26,36 @@ function App() {
     }
   });
 
+  if (settings.boxes.length === 0) {
+    addBox();
+  }
+
   function editGrid(x, y) {
     const newSettings = { ...settings };
     newSettings[y] += x;
+
     if (newSettings[y] < 1) {
       newSettings[y] = 1;
     }
+    const totalBoxCount = newSettings.rows * newSettings.cols;
+    const currentBoxCount = newSettings.boxes.length;
+
+    if (totalBoxCount > currentBoxCount) {
+      _.times(totalBoxCount - currentBoxCount, () => {
+        addBox();
+      })
+    } else {
+      _.times(currentBoxCount - totalBoxCount, (i) => {
+        deleteBox(currentBoxCount - i - 1);
+      })
+    }
+
     setSettings(newSettings);
   }
 
   function addBox() {
     const newSettings = { ...settings };
-    newSettings.boxes.push({ id: _.uniqueId('box_') })
+    newSettings.boxes.push({ id: _.uniqueId('box_') });
     setSettings(newSettings);
   }
 

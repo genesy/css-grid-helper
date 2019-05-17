@@ -1,7 +1,7 @@
 import React from 'react';
 import AppContext from './AppContext';
 
-function Box({ name, id, deleteBox }, index) {
+function Box({ name, id, deleteBox, index }) {
   return <AppContext.Consumer>
     {({deleteBox}) => (
       <div className={`box ${id}`} key={id}>

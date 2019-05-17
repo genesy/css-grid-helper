@@ -20,7 +20,7 @@ function Results({
   function Boxes({ settings }) {
     console.log(settings)
     return settings.boxes.map((box,i) => (
-      <Box key={box.id} id={box.id} deleteBox={deleteBox}/>
+      <Box key={box.id} id={box.id} deleteBox={deleteBox} index={i}/>
     ));
   }
 

@@ -5,7 +5,7 @@ function Settings({ settings }) {
   return (
     <AppContext.Consumer>
       {({ settings }) => (
-        <pre>{JSON.stringify(settings)}</pre>
+        <pre style={{ whiteSpace: 'pre-wrap' }}>{JSON.stringify(settings)}</pre>
       )}
     </AppContext.Consumer>
   )

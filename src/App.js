@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import './App.scss';
-import MonacoEditor from 'react-monaco-editor';
 import Layout from './Layout';
 import Settings from './Settings';
 import Results from './Results';
 import AppContext from './AppContext';
+import Editor from './Editor';
 import _ from 'lodash';
 
 function App() {
@@ -56,16 +56,7 @@ function App() {
     }}>
       <div className="App">
         <Layout>
-          <AppContext.Consumer>
-            {({css, settings}) => (
-              <MonacoEditor
-                language="css"
-                theme="vs-dark"
-                value={css}
-                options={settings.editorOptions}
-              />
-            )}
-          </AppContext.Consumer>
+          <Editor />
           <Settings/>
           <Results/>
         </Layout>

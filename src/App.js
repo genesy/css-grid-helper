@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Component, createRef } from 'react';
 import './App.scss';
 import Layout from './Layout';
 import Settings from './Settings';
@@ -7,30 +7,40 @@ import AppContext from './AppContext';
 import Editor from './Editor';
 import _ from 'lodash';
 
-function App() {
-  const [settings, setSettings] = useState({
-    rows: 1,
-    cols: 1,
-    boxes: [],
-    gap: '15px',
-    editorOptions: {
-      minimap: {
-        readOnly: true,
-        enabled: false,
-        scrollBeyondLastLine: false,
-        scrollbar: {
-          horizontal: 'auto',
-          vertical: 'auto'
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.resultsRef = createRef();
+    this.state = {
+      html: '',
+      settings: {
+        rows: 1,
+        cols: 1,
+        boxes: [],
+        gap: '15px',
+        editorOptions: {
+          minimap: {
+            readOnly: true,
+            enabled: false,
+            scrollBeyondLastLine: false,
+            scrollbar: {
+              horizontal: 'auto',
+              vertical: 'auto'
+            }
+          }
         }
       }
     }
-  });
-
-  if (settings.boxes.length === 0) {
-    addBox();
   }
 
-  function editGrid(x, y) {
+  componentWillMount() {
+    if (this.state.settings.boxes.length === 0) {
+      this.addBox();
+    }
+  }
+
+  editGrid(x, y) {
+    const { settings } = this.state;
     const newSettings = { ...settings };
     newSettings[y] += x;
 
@@ -42,45 +52,61 @@ function App() {
 
     if (totalBoxCount > currentBoxCount) {
       _.times(totalBoxCount - currentBoxCount, () => {
-        addBox();
+        this.addBox();
       })
     } else {
       _.times(currentBoxCount - totalBoxCount, (i) => {
-        deleteBox(currentBoxCount - i - 1);
+        this.deleteBox(currentBoxCount - i - 1);
       })
     }
 
-    setSettings(newSettings);
+    this.setState({ settings: newSettings })
   }
 
-  function addBox() {
+  addBox() {
+    const { settings } = this.state;
     const newSettings = { ...settings };
     newSettings.boxes.push({ id: _.uniqueId('box_') });
-    setSettings(newSettings);
+    this.setState({ settings: newSettings })
   }
 
-  function deleteBox(index) {
+  deleteBox(index) {
+    const { settings } = this.state;
     let newSettings = { ...settings };
     newSettings.boxes.splice(index, 1);
-    setSettings(newSettings);
+    this.setState({ settings: newSettings })
   }
 
-  return (
-    <AppContext.Provider value={{
-      settings,
-      editGrid,
-      addBox,
-      deleteBox
-    }}>
-      <div className="App">
-        <Layout>
-          <Editor />
-          <Settings/>
-          <Results/>
-        </Layout>
-      </div>
-    </AppContext.Provider>
-  );
+  getHtml = () => {
+    return this.state.html;
+  }
+
+  setHtml = (html) => {
+    this.setState({ html });
+  }
+
+  render() {
+    const { deleteBox, addBox, editGrid, getHtml, setHtml } = this;
+    const { settings } = this.state;
+    return (
+      <AppContext.Provider value={{
+        settings,
+        editGrid: editGrid.bind(this),
+        addBox,
+        deleteBox,
+        getHtml,
+        setHtml
+      }}>
+        <div className="App">
+          <Layout>
+            <Editor code={this.state.html}/>
+            <Settings/>
+            <Results ref={this.resultsRef}/>
+          </Layout>
+        </div>
+      </AppContext.Provider>
+    );
+  }
 }
 
 export default App;

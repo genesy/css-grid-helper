@@ -16,18 +16,21 @@ class Results extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    // const isSameBoxes = nextProps.context.settings.boxes !== this.props.context.settings.boxes;
-    // console.log(isSameBoxes);
     const { settings: oldSettings } = this.props.context;
     const { settings: newSettings } = nextProps.context;
-    // const isSameBoxes = _.isEqual(nextProps.context.settings.boxes, this.props.context.settings.boxes);
-    // const isSameRows = _.isEqual(oldSettings.rows, newS)
     const isSameRows = oldSettings.rows === newSettings.rows;
     const isSameCols = oldSettings.cols === newSettings.cols;
     return !isSameCols || !isSameRows;
-    // return !isSameBoxes;
   }
   componentDidUpdate() {
+    this.updateHtml();
+  }
+
+  componentDidMount() {
+    this.updateHtml();
+  }
+
+  updateHtml() {
     const { setHtml } = this.props.context;
     setHtml(this.innerRef.current.outerHTML)
   }

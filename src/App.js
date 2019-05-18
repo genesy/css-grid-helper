@@ -4,14 +4,16 @@ import Layout from './Layout';
 import Settings from './Settings';
 import Results from './Results';
 import AppContext from './AppContext';
-import Editor from './Editor';
 import _ from 'lodash';
+import HTMLEditor from './HTMLEditor';
+import CSSEditor from './CSSEditor';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.resultsRef = createRef();
     this.state = {
+      css: '',
       html: '',
       settings: {
         rows: 1,
@@ -99,8 +101,9 @@ class App extends Component {
       }}>
         <div className="App">
           <Layout>
-            <Editor code={this.state.html}/>
-            <Settings/>
+            <HTMLEditor/>
+            <CSSEditor/>
+            {/* <Settings/> */}
             <Results ref={this.resultsRef}/>
           </Layout>
         </div>

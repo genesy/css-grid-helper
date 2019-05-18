@@ -14,10 +14,20 @@ html, body {
   height: 100%;
   display: grid;
   grid-template-rows: 1fr 1fr;
-  grid-template-columns: 600px 1fr;
-  .react-monaco-editor-container {
+  grid-template-columns: 400px 1fr;
+  .html-editor-wrapper, .css-editor-wrapper {
+    overflow: hidden;
     grid-column: 1/2;
+  }
+  .html-editor-wrapper {
     grid-row: 1;
+  }
+  .css-editor-wrapper {
+    grid-row: 2;
+  }
+  h1 {
+    margin: 0;
+    display: none;
   }
 }
 

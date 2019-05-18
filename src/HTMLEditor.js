@@ -14,6 +14,8 @@ class HTMLEditor extends Component{
     const result = d.querySelector('.result');
     if (result) {
       result.removeAttribute('style');
+      // const btns = result.querySelectorAll('btn');
+      // btns.forEach(e => e.parentNode.removeChild(e));
       display = pretty(d.innerHTML);
     }
 

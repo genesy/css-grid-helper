@@ -52,6 +52,10 @@ class Results extends Component {
                 key={box.id}
                 id={box.id}
                 index={i}
+                grid={{
+                  rows: settings.rows,
+                  cols: settings.cols
+                }}
               />
             ))
           }

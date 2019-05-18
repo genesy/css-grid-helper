@@ -68,7 +68,16 @@ class App extends Component {
   addBox() {
     const { settings } = this.state;
     const newSettings = { ...settings };
-    newSettings.boxes.push({ id: _.uniqueId('box_') });
+    const index = newSettings.boxes.length;
+    newSettings.boxes.push({
+      id: _.uniqueId('box_')
+    });
+    this.setState({ settings: newSettings })
+  }
+  updateBox(id, data) {
+    const newSettings = {... this.state.settings };
+    const index = _.findIndex(newSettings.boxes, { id });
+    newSettings.boxes[index] = { ...newSettings.boxes[index], ...data };
     this.setState({ settings: newSettings })
   }
 
@@ -88,13 +97,14 @@ class App extends Component {
   }
 
   render() {
-    const { deleteBox, addBox, editGrid, getHtml, setHtml } = this;
+    const { deleteBox, addBox, editGrid, getHtml, setHtml, updateBox } = this;
     const { settings } = this.state;
     return (
       <AppContext.Provider value={{
         settings,
         editGrid: editGrid.bind(this),
         addBox,
+        updateBox: updateBox.bind(this),
         deleteBox,
         getHtml,
         setHtml

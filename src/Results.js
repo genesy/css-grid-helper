@@ -36,7 +36,7 @@ class Results extends Component {
   }
 
   render() {
-    const { editGrid, settings } = this.props.context;
+    const { editGrid, settings, updateBox } = this.props.context;
     return (
       <div className="result-container">
         <button className="col-sub" onClick={() => editGrid(-1, 'cols') }>-</button>
@@ -55,6 +55,10 @@ class Results extends Component {
                 grid={{
                   rows: settings.rows,
                   cols: settings.cols
+                }}
+                updateBox={updateBox}
+                style={{
+                  ...box.style
                 }}
               />
             ))

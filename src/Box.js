@@ -1,51 +1,79 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-function Box({ id, index, grid }) {
-  const totalBoxes = grid.rows * grid.cols;
-
-  function isAtTop() {
-    return index < grid.cols;
+class Box extends Component {
+  constructor(props) {
+    super(props);
+    const { grid } = this.props;
+    this.totalBoxes = grid.rows * grid.cols;
   }
 
-  function isAtBottom() {
-    return index >= (totalBoxes - grid.cols);
+  isAtTop() {
+    return this.props.index < this.props.grid.cols;
   }
 
-  function isAtLeft() {
-    return index % grid.cols === 0;
-  }
-  function isAtRight() {
-    return index % grid.cols === grid.cols - 1;
+  isAtBottom() {
+    return this.props.index >= (this.totalBoxes - this.props.grid.cols);
   }
 
-  function generateStyle(index) {
-    let row;
-    let col;
+  isAtLeft() {
+    return this.props.index % this.props.grid.cols === 0;
+  }
+  isAtRight() {
+    return this.props.index % this.props.grid.cols === this.props.grid.cols - 1;
+  }
+
+  generateStyle() {
+    const { grid, index } = this.props;
+    const gridRowStart = Math.floor(index / grid.cols) + 1;
+    const gridRowEnd = gridRowStart + 1;
+    const gridColumnStart = (index % grid.cols) + 1;
+    const gridColumnEnd = gridColumnStart + 1;
+    console.log({
+      index,
+      cols: grid.cols,
+      rows: grid.rows
+    })
     const style = {
-      gridRow: `${index}/${index+1}`
+      gridRowStart,
+      gridRowEnd,
+      gridColumnStart,
+      gridColumnEnd
     };
     return style;
   }
-  return (
-    <div className={`box ${id}`} key={id} style={{...generateStyle()}}>
-      { !isAtTop() ? <button className="expand-up">+</button> : '' }
-      { !isAtLeft() ? <button className="expand-left">+</button> : '' }
-      { !isAtBottom() ? <button className="expand-down">+</button> : '' }
-      { !isAtRight() ? <button className="expand-right">+</button> : '' }
-      <div className="box-content">
-        {/* <pre>
-          isAtTop: {isAtTop() ? 'true': 'false'}
-          <br/>
-          isAtBottom: {isAtBottom() ? 'true': 'false'}
-          <br/>
-          isAtLeft: {isAtLeft() ? 'true': 'false'}
-          <br/>
-          isAtRight: {isAtRight() ? 'true': 'false'}
-        </pre> */}
-        box {index}
+
+  render() {
+    const { id, index, style } = this.props;
+    return (
+      <div
+        className={`box ${index}`} key={id}
+        style={this.generateStyle(index)}
+        >
+        { !this.isAtTop() ? <button className="expand-up">+</button> : '' }
+        { !this.isAtLeft() ? <button className="expand-left">+</button> : '' }
+        { !this.isAtBottom() ? <button className="expand-down">+</button> : '' }
+        { !this.isAtRight() ? <button className="expand-right">+</button> : '' }
+        <div className="box-content">
+          <pre style={{fontSize: 15, wordBreak: 'break-all', whiteSpace: 'pre-line'}}>
+            { JSON.stringify(style)}
+            {/* cols: {grid.cols}<br/>
+            rows: {grid.rows}<br/>
+            { JSON.stringify(generateStyle(index)) } */}
+          </pre>
+          {/* <pre>
+            isAtTop: {isAtTop() ? 'true': 'false'}
+            <br/>
+            isAtBottom: {isAtBottom() ? 'true': 'false'}
+            <br/>
+            isAtLeft: {isAtLeft() ? 'true': 'false'}
+            <br/>
+            isAtRight: {isAtRight() ? 'true': 'false'}
+          </pre> */}
+          box {index}
+        </div>
       </div>
-    </div>
-  )
+    )
+  }
 }
 
 export default Box;

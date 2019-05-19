@@ -15,10 +15,12 @@ class App extends Component {
     this.state = {
       css: '',
       html: '',
+      boxes: [],
       settings: {
         rows: 1,
         cols: 1,
         boxes: [],
+        boxesStyle: [],
         gap: '15px',
         editorOptions: {
           minimap: {
@@ -35,10 +37,28 @@ class App extends Component {
     }
   }
 
+  componentWillUpdate(nextProps, nextState) {
+    const oldState = this.state;
+    const gridChanged = nextState.rows !== oldState.rows || nextState.cols !== oldState.cols;
+    // const boxesChanged = nextState.boxes.length !== oldState.boxes.length,
+    if (gridChanged) {
+      this.recalculateBoxes();
+    }
+
+    console.log({ nextState })
+  }
+
   componentWillMount() {
     if (this.state.settings.boxes.length === 0) {
       this.addBox();
     }
+  }
+
+  recalculateBoxes() {
+    const boxesStyle = [];
+    this.state.boxes.forEach(box => {
+      boxesStyle.push()
+    });
   }
 
   editGrid(x, y) {
@@ -65,10 +85,34 @@ class App extends Component {
     this.setState({ settings: newSettings })
   }
 
+
+  generateStyle({ grid, index }) {
+    // const { grid, index } = this.props;
+    const gridRowStart = Math.floor(index / grid.cols) + 1;
+    const gridRowEnd = gridRowStart + 1;
+    const gridColumnStart = (index % grid.cols) + 1;
+    const gridColumnEnd = gridColumnStart + 1;
+    console.log({
+      index,
+      cols: grid.cols,
+      rows: grid.rows
+    })
+    const style = {
+      gridRowStart,
+      gridRowEnd,
+      gridColumnStart,
+      gridColumnEnd
+    };
+    return style;
+  }
   addBox() {
     const { settings } = this.state;
     const newSettings = { ...settings };
     const index = newSettings.boxes.length;
+    const grid = {
+      rows: settings.rows,
+      cols: settings.cols
+    }
     newSettings.boxes.push({
       id: _.uniqueId('box_')
     });

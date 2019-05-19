@@ -22,54 +22,43 @@ class Box extends Component {
     return this.props.index % this.props.grid.cols === this.props.grid.cols - 1;
   }
 
-  generateStyle() {
-    const { grid, index } = this.props;
-    const gridRowStart = Math.floor(index / grid.cols) + 1;
-    const gridRowEnd = gridRowStart + 1;
-    const gridColumnStart = (index % grid.cols) + 1;
-    const gridColumnEnd = gridColumnStart + 1;
-    console.log({
-      index,
-      cols: grid.cols,
-      rows: grid.rows
-    })
-    const style = {
-      gridRowStart,
-      gridRowEnd,
-      gridColumnStart,
-      gridColumnEnd
-    };
-    return style;
+  debuggerInfo(info, name) {
+    const preStyle = {
+      fontSize: 15,
+      wordBreak: 'break-all',
+    }
+    const pStyle = {
+      fontSize: 18
+    }
+    const wrapperStyle = {
+      width: '80%'
+    }
+    return (
+      <div className="debugger-info"
+        style={wrapperStyle}>
+        <p style={pStyle}> { name } </p>
+
+        <pre style={preStyle}>
+          {JSON.stringify(info, null, 2)}
+        </pre>
+      </div>
+    )
   }
+
 
   render() {
     const { id, index, style } = this.props;
     return (
       <div
         className={`box ${index}`} key={id}
-        style={this.generateStyle(index)}
+        style={{...style}}
         >
         { !this.isAtTop() ? <button className="expand-up">+</button> : '' }
         { !this.isAtLeft() ? <button className="expand-left">+</button> : '' }
         { !this.isAtBottom() ? <button className="expand-down">+</button> : '' }
         { !this.isAtRight() ? <button className="expand-right">+</button> : '' }
         <div className="box-content">
-          <pre style={{fontSize: 15, wordBreak: 'break-all', whiteSpace: 'pre-line'}}>
-            { JSON.stringify(style)}
-            {/* cols: {grid.cols}<br/>
-            rows: {grid.rows}<br/>
-            { JSON.stringify(generateStyle(index)) } */}
-          </pre>
-          {/* <pre>
-            isAtTop: {isAtTop() ? 'true': 'false'}
-            <br/>
-            isAtBottom: {isAtBottom() ? 'true': 'false'}
-            <br/>
-            isAtLeft: {isAtLeft() ? 'true': 'false'}
-            <br/>
-            isAtRight: {isAtRight() ? 'true': 'false'}
-          </pre> */}
-          box {index}
+          { this.debuggerInfo(this.props, 'props')}
         </div>
       </div>
     )

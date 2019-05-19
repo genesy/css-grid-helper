@@ -7,11 +7,11 @@ class Results extends Component {
     super(props);
     this.innerRef = createRef();
   }
-  style(settings) {
+  style({ rows, cols, gap }) {
     return {
-      '--rows': `repeat(${settings.rows}, 1fr)`,
-      '--cols': `repeat(${settings.cols}, 1fr)`,
-      '--gap': settings.gap
+      '--rows': `repeat(${rows}, 1fr)`,
+      '--cols': `repeat(${cols}, 1fr)`,
+      '--gap': gap
     }
   }
 
@@ -74,7 +74,11 @@ class Results extends Component {
 export default React.forwardRef((props, ref) => (
   <AppContext.Consumer>
     {(context) => (
-      <Results context={context} ref={ref}/>
+      <Results
+        context={context}
+        ref={ref}
+        {...props}
+      />
     )}
   </AppContext.Consumer>
 ));

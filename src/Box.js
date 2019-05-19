@@ -3,6 +3,14 @@ import React, { Component } from 'react';
 class Box extends Component {
   constructor(props) {
     super(props);
+    this.updateBoxesCount();
+  }
+
+  componentWillReceiveProps() {
+    this.updateBoxesCount();
+  }
+
+  updateBoxesCount() {
     const { grid } = this.props;
     this.totalBoxes = grid.rows * grid.cols;
   }
@@ -12,7 +20,8 @@ class Box extends Component {
   }
 
   isAtBottom() {
-    return this.props.index >= (this.totalBoxes - this.props.grid.cols);
+    if(this.props.grid.rows === 1) return true;
+    return this.props.index >= (this.props.totalBoxes - this.props.grid.cols);
   }
 
   isAtLeft() {
@@ -45,6 +54,17 @@ class Box extends Component {
     )
   }
 
+  renderExpandButtons() {
+    return (
+      <>
+        { !this.isAtTop() ? <button className="expand-up">+</button> : '' }
+        { !this.isAtLeft() ? <button className="expand-left">+</button> : '' }
+        { !this.isAtBottom() ? <button className="expand-down">+</button> : '' }
+        { !this.isAtRight() ? <button className="expand-right">+</button> : '' }
+      </>
+    )
+  }
+
 
   render() {
     const { id, index, style } = this.props;
@@ -53,12 +73,10 @@ class Box extends Component {
         className={`box ${index}`} key={id}
         style={{...style}}
         >
-        { !this.isAtTop() ? <button className="expand-up">+</button> : '' }
-        { !this.isAtLeft() ? <button className="expand-left">+</button> : '' }
-        { !this.isAtBottom() ? <button className="expand-down">+</button> : '' }
-        { !this.isAtRight() ? <button className="expand-right">+</button> : '' }
+        { this.renderExpandButtons() }
         <div className="box-content">
           { this.debuggerInfo(this.props, 'props')}
+          { this.debuggerInfo({ totalBoxes: this.totalBoxes }, 'total')}
         </div>
       </div>
     )
